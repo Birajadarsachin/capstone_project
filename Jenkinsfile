@@ -12,6 +12,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
+                deleteDir()      // 🔥 wipes old workspace completely
                 checkout scm
             }
         }
