@@ -45,7 +45,7 @@ pipeline {
                 "C:\\Program Files\\Amazon\\AWSCLIV2\\aws.exe" ssm send-command ^
                   --instance-ids %EC2_ID% ^
                   --document-name AWS-RunShellScript ^
-                  --parameters commands="cd corporate-banking-app,docker-compose pull,docker-compose up -d" ^
+                  --parameters commands="cd corporate-banking-app,docker-compose pull,docker-compose up -d --force-recreate frontend" ^
                   --region %AWS_REGION%
                 """
             }
