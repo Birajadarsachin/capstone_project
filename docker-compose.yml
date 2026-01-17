@@ -50,32 +50,22 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   backend:
-    build:
-      context: ./banking-system/banking-system
-    container_name: banking-backend
-    ports:
-      - "8081:8081"
-    depends_on:
-      mongo:
-        condition: service_healthy
-      kafka:
-        condition: service_started
-    restart: always
-    environment:
-      JWT_SECRET: capstone-dev-secret-key-capstone-dev-secret
-      MONGO_URI: mongodb://mongo:27017/bankingdb?replicaSet=rs0
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  image: 108964700298.dkr.ecr.ap-south-1.amazonaws.com/corporate-banking-backend:latest
+  container_name: banking-backend
+  ports:
+    - "8081:8081"
+  restart: always
+  environment:
+    JWT_SECRET: capstone-dev-secret-key-capstone-dev-secret
+    MONGO_URI: mongodb://mongo:27017/bankingdb?replicaSet=rs0
+    KAFKA_BOOTSTRAP_SERVERS: kafka:9092
 
-  frontend:
-    build:
-      context: ./banking-system-frontend
-    container_name: banking-frontend
-    ports:
-      - "5173:80"
-    depends_on:
-      - backend
-    environment:
-      VITE_API_URL: http://backend:8081/api
+frontend:
+  image: 108964700298.dkr.ecr.ap-south-1.amazonaws.com/corporate-banking-frontend:latest
+  container_name: banking-frontend
+  ports:
+    - "80:80"
+
 
 volumes:
   mongo_data:
