@@ -103,6 +103,14 @@ const Login = () => {
       >
         Secure access for Admins, Relationship Managers, and Analysts
       </Typography>
+      <Typography
+        variant="body2"
+        textAlign="center"
+        color="text.secondary"
+        mb={4}
+      >
+        for demo use admin/admin123
+      </Typography>
 
       <form onSubmit={handleSubmit}>
         <TextField
