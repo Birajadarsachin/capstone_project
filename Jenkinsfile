@@ -11,7 +11,7 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                dir('banking-system') {
+                dir('banking-system/banking-system') {
                     sh 'mvn clean package -DskipTests'
                 }
             }
