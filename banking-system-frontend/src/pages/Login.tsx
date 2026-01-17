@@ -101,7 +101,7 @@ const Login = () => {
         color="text.secondary"
         mb={4}
       >
-        Secure access for Admins, Relationship Managers, and Analysts
+        Secure access for Admins, Relationship Managers, and Analysts use admin/admin123 to login
       </Typography>
 
 
