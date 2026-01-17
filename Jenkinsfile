@@ -29,12 +29,15 @@ pipeline {
         stage('Build Frontend Image') {
             steps {
                 bat """
-                docker build --no-cache -t corporate-banking-frontend banking-system-frontend
-                docker tag corporate-banking-frontend:latest %ECR_REGISTRY%/corporate-banking-frontend:latest
+                docker build --no-cache -t corporate-banking-frontend:%BUILD_NUMBER% banking-system-frontend
+                docker tag corporate-banking-frontend:%BUILD_NUMBER% %ECR_REGISTRY%/corporate-banking-frontend:%BUILD_NUMBER%
+                docker tag corporate-banking-frontend:%BUILD_NUMBER% %ECR_REGISTRY%/corporate-banking-frontend:latest
+                docker push %ECR_REGISTRY%/corporate-banking-frontend:%BUILD_NUMBER%
                 docker push %ECR_REGISTRY%/corporate-banking-frontend:latest
                 """
             }
         }
+
 
         stage('Deploy on EC2 via SSM') {
             steps {
