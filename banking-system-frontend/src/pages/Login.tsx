@@ -101,8 +101,7 @@ const Login = () => {
         color="text.secondary"
         mb={4}
       >
-        Secure access for Admins, Relationship Managers, and Analysts 
-        For demo use admin/admin123
+        Secure access for Admins, Relationship Managers, and Analysts For demo use admin/admin123
       </Typography>
 
 
