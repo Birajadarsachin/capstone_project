@@ -1,40 +1,46 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_REGION = "ap-south-1"
+        ECR_REGISTRY = "108964700298.dkr.ecr.ap-south-1.amazonaws.com"
+    }
+
     stages {
 
         stage('Checkout') {
+            steps { checkout scm }
+        }
+
+        stage('Build Backend Image') {
             steps {
-                checkout scm
+                bat '''
+                docker build -t corporate-banking-backend banking-system/banking-system
+                docker tag corporate-banking-backend:latest %ECR_REGISTRY%/corporate-banking-backend:latest
+                docker push %ECR_REGISTRY%/corporate-banking-backend:latest
+                '''
             }
         }
 
-        stage('Build Backend') {
+        stage('Build Frontend Image') {
             steps {
-                dir('banking-system/banking-system') {
-                    bat 'mvn clean package -DskipTests'
-                }
+                bat '''
+                docker build --no-cache -t corporate-banking-frontend banking-system-frontend
+                docker tag corporate-banking-frontend:latest %ECR_REGISTRY%/corporate-banking-frontend:latest
+                docker push %ECR_REGISTRY%/corporate-banking-frontend:latest
+                '''
             }
         }
 
-        stage('Build Frontend') {
+        stage('Deploy to EC2') {
             steps {
-                dir('banking-system-frontend') {
-                    bat 'npm install'
-                    bat 'npm run build'
-                }
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                bat 'docker-compose build'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                bat 'docker-compose up -d'
+                bat '''
+                ssh -i capstone-key.pem ec2-user@<EC2-PUBLIC-IP> "
+                cd corporate-banking-app &&
+                docker-compose pull &&
+                docker-compose up -d
+                "
+                '''
             }
         }
     }
