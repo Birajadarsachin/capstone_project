@@ -5,7 +5,7 @@ pipeline {
         AWS_ACCOUNT_ID  = "108964700298"
         AWS_REGION      = "ap-south-1"
         ECR_REGISTRY    = "108964700298.dkr.ecr.ap-south-1.amazonaws.com"
-        EC2_INSTANCE_ID = "<EC2_INSTANCE_ID>"
+        EC2_INSTANCE_ID = "i-001ed123efe067ffd"
     }
 
     stages {
