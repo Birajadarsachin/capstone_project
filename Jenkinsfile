@@ -39,10 +39,9 @@ pipeline {
         stage('Deploy on EC2 via SSM') {
             steps {
                 bat """
-                aws ssm send-command ^
-                  --instance-ids %EC2_INSTANCE_ID% ^
-                  --document-name "AWS-RunShellScript" ^
-                  --comment "Deploy latest banking app" ^
+                "C:\\Program Files\\Amazon\\AWSCLIV2\\aws.exe" ssm send-command ^
+                  --instance-ids %EC2_ID% ^
+                  --document-name AWS-RunShellScript ^
                   --parameters commands="cd corporate-banking-app,docker-compose pull,docker-compose up -d" ^
                   --region %AWS_REGION%
                 """
