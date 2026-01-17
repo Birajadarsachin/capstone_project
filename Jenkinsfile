@@ -46,11 +46,12 @@ pipeline {
                 "C:\\Program Files\\Amazon\\AWSCLIV2\\aws.exe" ssm send-command ^
                   --instance-ids %EC2_ID% ^
                   --document-name AWS-RunShellScript ^
-                  --comment "Force redeploy frontend" ^
-                  --parameters commands="cd corporate-banking-app,docker rm -f banking-frontend || true,docker-compose pull frontend,docker-compose up -d frontend" ^
+                  --comment "Hard redeploy frontend" ^
+                  --parameters commands="cd corporate-banking-app && docker compose down && docker compose pull && docker compose up -d" ^
                   --region %AWS_REGION%
                 """
-                }
             }
+        }
+
     }
 }
