@@ -44,11 +44,11 @@ pipeline {
             steps {
                 bat """
                 "C:\\Program Files\\Amazon\\AWSCLIV2\\aws.exe" ssm send-command ^
-                  --instance-ids %EC2_ID% ^
-                  --document-name AWS-RunShellScript ^
-                  --comment "Hard redeploy frontend" ^
-                  --parameters commands="cd corporate-banking-app && docker compose down && docker compose pull && docker compose up -d" ^
-                  --region %AWS_REGION%
+                --instance-ids %EC2_ID% ^
+                --document-name AWS-RunShellScript ^
+                --comment "Deploy updated containers" ^
+                --parameters commands="cd corporate-banking-app && docker compose pull && docker compose up -d --force-recreate --pull always" ^
+                --region %AWS_REGION%
                 """
             }
         }
